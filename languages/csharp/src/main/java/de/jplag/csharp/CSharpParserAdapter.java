@@ -47,6 +47,9 @@ public class CSharpParserAdapter extends AbstractParser {
             parseFile(file);
             tokens.add(Token.fileEnd(file));
         }
+//        tokens = removeTokensForConsistency(tokens);
+        System.out.println("Tokens for: "+files);
+        System.out.println(tokens);
         return tokens;
     }
 
@@ -76,4 +79,17 @@ public class CSharpParserAdapter extends AbstractParser {
     /* package-private */ void addToken(TokenType type, int line, int column, int length) {
         tokens.add(new Token(type, currentFile, line, column, length));
     }
+
+//    public List<Token> removeTokensForConsistency(List<Token> tokens) {
+//        System.out.println("Token before remove:");
+//        System.out.println(tokens);
+//        ArrayList<Token> newTokens = new ArrayList<>();
+//        for (Token token : tokens) {
+//            if (!token.getType().equals(CSharpTokenType.METHOD) &&
+//                  !token.getType().equals(CSharpTokenType.CLASS)) {
+//                newTokens.add(token);
+//            }
+//        }
+//        return newTokens;
+//    }
 }

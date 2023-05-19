@@ -232,6 +232,7 @@ TOKEN [IGNORE_CASE] :
               ("e" (["-","+"])? (["0"-"9"])+)? (["f","l"])? >
 
 | <  FLOATTWO : (["0"-"9"])+ "e" (["-","+"])?  (["0"-"9"])+ (["f","l"])? >
+
 }
 
 TOKEN :
@@ -325,28 +326,27 @@ void token(): {}
 | "break"        { delegatingScanner.add(C_BREAK,token); }
 | "case"         { delegatingScanner.add(C_CASE,token); }
 | "catch"        { delegatingScanner.add(C_CATCH,token); }
-| "char"         { delegatingScanner.add(C_CHAR,token); }
 | "const"        { delegatingScanner.add(C_CONST,token); }
 | "continue"     { delegatingScanner.add(C_CONTINUE,token); }
 | "default"      { delegatingScanner.add(C_DEFAULT,token); }
 | "delete"       { delegatingScanner.add(C_DELETE,token); }
 | "do"           { delegatingScanner.add(C_DO,token); }
-| "double"       { delegatingScanner.add(C_DOUBLE,token); }
+| "double"
 | "else"         { delegatingScanner.add(C_ELSE,token); }
 | "enum"         { delegatingScanner.add(C_ENUM,token); }
 | "extern"       { delegatingScanner.add(C_EXTERN,token); }
-| "float"        { delegatingScanner.add(C_FLOAT,token); }
+| "float"
 | "for"          { delegatingScanner.add(C_FOR,token); }
 | "friend"       { delegatingScanner.add(C_FRIEND,token); }
 | "goto"         { delegatingScanner.add(C_GOTO,token); }
 | "if"           { delegatingScanner.add(C_IF,token); }
 | "inline"       { delegatingScanner.add(C_INLINE,token); }
-| "int"          { delegatingScanner.add(C_INT,token); }
-| "long"         { delegatingScanner.add(C_LONG,token); }
-| "new"          { delegatingScanner.add(C_NEW,token); }
-| "private"      { delegatingScanner.add(C_PRIVATE,token); }
-| "protected"    { delegatingScanner.add(C_PROTECTED,token); }
-| "public"       { delegatingScanner.add(C_PUBLIC,token); }
+| "int"
+| "long"
+| "new"
+| "private"
+| "protected"
+| "public"
 | "redeclared"   { delegatingScanner.add(C_REDECLARED,token); }
 | "register"     { delegatingScanner.add(C_REGISTER,token); }
 | "return"       { delegatingScanner.add(C_RETURN,token); }
@@ -371,7 +371,7 @@ void token(): {}
 | "true"
 | "false"
 | "throw"        { delegatingScanner.add(C_THROW,token); }
-| "NULL"         { delegatingScanner.add(C_NULL,token); }
+| "NULL"
 
 | <OCTALINT>
 | <OCTALLONG>

@@ -41,7 +41,6 @@ import static de.jplag.csharp.CSharpTokenType.INTERFACE_END;
 import static de.jplag.csharp.CSharpTokenType.INVOCATION;
 import static de.jplag.csharp.CSharpTokenType.LOCAL_VARIABLE;
 import static de.jplag.csharp.CSharpTokenType.LOCK;
-import static de.jplag.csharp.CSharpTokenType.METHOD;
 import static de.jplag.csharp.CSharpTokenType.METHOD_BEGIN;
 import static de.jplag.csharp.CSharpTokenType.METHOD_END;
 import static de.jplag.csharp.CSharpTokenType.NAMESPACE_BEGIN;
@@ -318,11 +317,11 @@ public class CSharpListener extends CSharpParserBaseListener {
         super.enterUsing_directives(context);
     }
 
-    @Override
-    public void enterClass_definition(Class_definitionContext context) {
-        transformToken(CLASS, context.getStart());
-        super.enterClass_definition(context);
-    }
+//    @Override
+//    public void enterClass_definition(Class_definitionContext context) {
+//        transformToken(CLASS, context.getStart());
+//        super.enterClass_definition(context);
+//    }
 
     @Override
     public void enterClass_body(Class_bodyContext context) {
@@ -336,11 +335,11 @@ public class CSharpListener extends CSharpParserBaseListener {
         super.exitClass_body(context);
     }
 
-    @Override
-    public void enterMethod_declaration(Method_declarationContext context) {
-        transformToken(METHOD, context.getStart());
-        super.enterMethod_declaration(context);
-    }
+//    @Override
+//    public void enterMethod_declaration(Method_declarationContext context) {
+//        transformToken(METHOD, context.getStart());
+//        super.enterMethod_declaration(context);
+//    }
 
     @Override
     public void enterMethod_body(Method_bodyContext context) {
