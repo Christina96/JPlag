@@ -232,7 +232,6 @@ TOKEN [IGNORE_CASE] :
               ("e" (["-","+"])? (["0"-"9"])+)? (["f","l"])? >
 
 | <  FLOATTWO : (["0"-"9"])+ "e" (["-","+"])?  (["0"-"9"])+ (["f","l"])? >
-
 }
 
 TOKEN :
@@ -326,24 +325,25 @@ void token(): {}
 | "break"        { delegatingScanner.add(C_BREAK,token); }
 | "case"         { delegatingScanner.add(C_CASE,token); }
 | "catch"        { delegatingScanner.add(C_CATCH,token); }
+| "char"         { delegatingScanner.add(C_TYPE,token); }
 | "const"        { delegatingScanner.add(C_CONST,token); }
 | "continue"     { delegatingScanner.add(C_CONTINUE,token); }
 | "default"      { delegatingScanner.add(C_DEFAULT,token); }
 | "delete"       { delegatingScanner.add(C_DELETE,token); }
 | "do"           { delegatingScanner.add(C_DO,token); }
-| "double"
+| "double"       { delegatingScanner.add(C_TYPE,token); }
 | "else"         { delegatingScanner.add(C_ELSE,token); }
 | "enum"         { delegatingScanner.add(C_ENUM,token); }
 | "extern"       { delegatingScanner.add(C_EXTERN,token); }
-| "float"
+| "float"        { delegatingScanner.add(C_TYPE,token); }
 | "for"          { delegatingScanner.add(C_FOR,token); }
 | "friend"       { delegatingScanner.add(C_FRIEND,token); }
 | "goto"         { delegatingScanner.add(C_GOTO,token); }
 | "if"           { delegatingScanner.add(C_IF,token); }
 | "inline"       { delegatingScanner.add(C_INLINE,token); }
-| "int"
-| "long"
-| "new"
+| "int"          { delegatingScanner.add(C_TYPE,token); }
+| "long"         { delegatingScanner.add(C_TYPE,token); }
+| "new"          { delegatingScanner.add(C_NEW,token); }
 | "private"
 | "protected"
 | "public"
@@ -364,14 +364,14 @@ void token(): {}
 | "union"        { delegatingScanner.add(C_UNION,token); }
 | "unsigned"     { delegatingScanner.add(C_UNSIGNED,token); }
 | "virtual"      { delegatingScanner.add(C_VIRTUAL,token); }
-| "void"         { delegatingScanner.add(C_VOID,token); }
+| "void"
 | "volatile"     { delegatingScanner.add(C_VOLATILE,token); }
 | "while"        { delegatingScanner.add(C_WHILE,token); }
 | "operator"     { delegatingScanner.add(C_OPERATOR,token); }
 | "true"
 | "false"
 | "throw"        { delegatingScanner.add(C_THROW,token); }
-| "NULL"
+| "NULL"         { delegatingScanner.add(C_TYPE,token); }
 
 | <OCTALINT>
 | <OCTALLONG>
@@ -443,7 +443,6 @@ void index(): {}
 | <UNSIGNED_HEXADECIMALLONG>
 
 }
-
 
 
 
