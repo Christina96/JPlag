@@ -23,8 +23,8 @@ public class Parser extends AbstractParser {
     public List<Token> parse(Set<File> files) throws ParsingException {
         tokens = new ArrayList<>();
         new JavacAdapter().parseFiles(files, this);
-        System.out.println("Tokens for:" + files);
-        System.out.println(tokens);
+//        System.out.println("Tokens for:" + files);
+//        System.out.println(tokens);
         return tokens;
     }
 

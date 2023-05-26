@@ -30,8 +30,8 @@ public class Scanner extends AbstractParser {
       tokens.add(Token.fileEnd(currentFile));
     }
 //    tokens = removeTokensForConsistency(tokens);
-    System.out.println("Tokens for:" + files);
-    System.out.println(tokens);
+//    System.out.println("Tokens for:" + files);
+//    System.out.println(tokens);
     return tokens;
   }
 

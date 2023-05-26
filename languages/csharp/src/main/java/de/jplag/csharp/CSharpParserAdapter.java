@@ -23,62 +23,65 @@ import de.jplag.csharp.grammar.CSharpParser;
 /**
  * Parser adapter for the ANTLR 4 CSharp Parser and Lexer. It receives file to parse and passes them to the ANTLR
  * pipeline. Then it walks the produced parse tree and creates JPlag token with the {@link CSharpListener}.
+ *
  * @author Timur Saglam
  */
 public class CSharpParserAdapter extends AbstractParser {
-    private List<Token> tokens;
-    private File currentFile;
+  private List<Token> tokens;
+  private File currentFile;
 
-    /**
-     * Creates the parser adapter.
-     */
-    public CSharpParserAdapter() {
-        super();
+  /**
+   * Creates the parser adapter.
+   */
+  public CSharpParserAdapter() {
+    super();
+  }
+
+  /**
+   * Parses all tokens from a set of files.
+   *
+   * @param files is the set of files.
+   * @return the list of parsed tokens.
+   */
+  public List<Token> parse(Set<File> files) throws ParsingException {
+    tokens = new ArrayList<>();
+    for (File file : files) {
+      parseFile(file);
+      tokens.add(Token.fileEnd(file));
     }
-
-    /**
-     * Parses all tokens from a set of files.
-     * @param files is the set of files.
-     * @return the list of parsed tokens.
-     */
-    public List<Token> parse(Set<File> files) throws ParsingException {
-        tokens = new ArrayList<>();
-        for (File file : files) {
-            parseFile(file);
-            tokens.add(Token.fileEnd(file));
-        }
 //        tokens = removeTokensForConsistency(tokens);
-        System.out.println("Tokens for: "+files);
-        System.out.println(tokens);
-        return tokens;
+//    System.out.println("Tokens for: " + files);
+//    System.out.println(tokens);
+    return tokens;
+  }
+
+  private void parseFile(File file) throws ParsingException {
+    try (FileInputStream inputStream = new FileInputStream(file)) {
+      currentFile = file;
+      // create a lexer, a parser and a buffer between them.
+      CSharpLexer lexer = new CSharpLexer(CharStreams.fromStream(inputStream));
+      CommonTokenStream tokens = new CommonTokenStream(lexer);
+      CSharpParser parser = new CSharpParser(tokens);
+      // Create a tree walker and the entry context defined by the parser grammar
+      ParserRuleContext entryContext = parser.compilation_unit();
+      ParseTreeWalker treeWalker = new ParseTreeWalker();
+      // Walk over the parse tree:
+      for (int i = 0; i < entryContext.getChildCount(); i++) {
+        ParseTree parseTree = entryContext.getChild(i);
+        treeWalker.walk(new CSharpListener(this), parseTree);
+      }
+    } catch (ClassCastException exception) {
+      System.out.println("Clas cast exception ------------------");
+      System.out.println(file);
+      throw new ParsingException(file, exception.getMessage(), exception);
+    } catch (IOException exception) {
+      throw new ParsingException(file, exception.getMessage(), exception);
     }
+  }
 
-    private void parseFile(File file) throws ParsingException {
-        try (FileInputStream inputStream = new FileInputStream(file)) {
-            currentFile = file;
-
-            // create a lexer, a parser and a buffer between them.
-            CSharpLexer lexer = new CSharpLexer(CharStreams.fromStream(inputStream));
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            CSharpParser parser = new CSharpParser(tokens);
-
-            // Create a tree walker and the entry context defined by the parser grammar
-            ParserRuleContext entryContext = parser.compilation_unit();
-            ParseTreeWalker treeWalker = new ParseTreeWalker();
-
-            // Walk over the parse tree:
-            for (int i = 0; i < entryContext.getChildCount(); i++) {
-                ParseTree parseTree = entryContext.getChild(i);
-                treeWalker.walk(new CSharpListener(this), parseTree);
-            }
-        } catch (IOException exception) {
-            throw new ParsingException(file, exception.getMessage(), exception);
-        }
-    }
-
-    /* package-private */ void addToken(TokenType type, int line, int column, int length) {
-        tokens.add(new Token(type, currentFile, line, column, length));
-    }
+  /* package-private */ void addToken(TokenType type, int line, int column, int length) {
+    tokens.add(new Token(type, currentFile, line, column, length));
+  }
 
 //    public List<Token> removeTokensForConsistency(List<Token> tokens) {
 //        System.out.println("Token before remove:");

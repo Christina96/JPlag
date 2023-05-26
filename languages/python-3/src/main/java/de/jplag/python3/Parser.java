@@ -39,8 +39,8 @@ public class Parser extends AbstractParser {
       parseFile(file);
       tokens.add(Token.fileEnd(file));
     }
-    System.out.println("Tokens for:" + files);
-    System.out.println(tokens);
+//    System.out.println("Tokens for:" + files);
+//    System.out.println(tokens);
     return tokens;
   }
 
